@@ -77,6 +77,22 @@ trap(struct trapframe *tf)
             cpuid(), tf->cs, tf->eip);
     lapiceoi();
     break;
+  case T_PGFLT:
+  {
+    uint offadd = rcr2();
+    cprintf("Page Fault: ");
+    if(allocuvm(myproc()->pgdir, PGROUNDDOWN(offadd), offadd)){
+      cprintf("Allocation success\n");
+      myproc()->pages++;
+      //exit();
+    }
+    else {
+      cprintf("Allocation failure\n");
+      exit();
+    }
+    
+    break;
+  }
 
   //PAGEBREAK: 13
   default:
