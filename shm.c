@@ -42,8 +42,11 @@ return 0; //added to remove compiler warning -- you should decide what to return
 int shm_close(int id) {
 //you write this too!
 
-
-
+  for(i = 0; i < 64; i++) {
+    if(shm_tabl.shm_pages.id == id){
+      refcnt--;
+    }
+  }
 
 return 0; //added to remove compiler warning -- you should decide what to return
 }
